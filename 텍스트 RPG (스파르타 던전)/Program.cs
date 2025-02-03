@@ -44,7 +44,7 @@ namespace 텍스트_RPG__스파르타_던전_
         }
 
         // 선택 함수(마을)
-        static string UserAct(string first, string second, string third)
+        static string UserAct(string first, string second, string third, string fourth, string fifth)
         {
             string userChoice = null;
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
@@ -53,6 +53,8 @@ namespace 텍스트_RPG__스파르타_던전_
             Console.WriteLine($"{first}");
             Console.WriteLine($"{second}");
             Console.WriteLine($"{third}");
+            Console.WriteLine($"{fourth}");
+            Console.WriteLine($"{fifth}");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요");
             userChoice = Console.ReadLine();
@@ -74,15 +76,53 @@ namespace 텍스트_RPG__스파르타_던전_
             int atkChange = 0;
             int defChange = 0;
 
-            List<string> userItem = new List<string>(); 
-            
+            int[] itemCost = new int[10];
+            itemCost[0] = 1000;
+            itemCost[1] = 2250;
+            itemCost[2] = 3500;
+            itemCost[3] = 600;
+            itemCost[4] = 1500;
+            itemCost[5] = 2400;
+            itemCost[6] = 1800;
+            itemCost[7] = 400;
+            itemCost[8] = 1650;
+
+            List<string> userItem = new List<string>();
+            List<int> userItemDefStat = new List<int>();
+            List<int> userItemAtkStat = new List<int>();
+
+            int[] storeItemDefStat = new int[10];
+            storeItemDefStat[0] = 5;
+            storeItemDefStat[1] = 9;
+            storeItemDefStat[2] = 15;
+            storeItemDefStat[3] = 0;
+            storeItemDefStat[4] = 0;
+            storeItemDefStat[5] = 0;
+            storeItemDefStat[6] = 3;
+            storeItemDefStat[7] = 2;
+            storeItemDefStat[8] = 5;
+
+            int[] storeItemAtkStat = new int[10];
+            storeItemAtkStat[0] = 0;
+            storeItemAtkStat[1] = 0;
+            storeItemAtkStat[2] = 0;
+            storeItemAtkStat[3] = 2;
+            storeItemAtkStat[4] = 5;
+            storeItemAtkStat[5] = 7;
+            storeItemAtkStat[6] = 2;
+            storeItemAtkStat[7] = 0;
+            storeItemAtkStat[8] = 8;
+
             List<string> storeItem = new List<string>();
-            storeItem.Add("수련자 갑옷 | 방어력 +5 | 수련에 도움을 주는 갑옷입니다. | 1000 G");
-            storeItem.Add("무쇠갑옷 | 방어력 +9 | 무쇠로 만들어져 튼튼한 갑옷입니다. | 2250 G");
-            storeItem.Add("스파르타의 갑옷 | 방어력 +15 | 스파르타의 전사들이 사용했다는 전설의 갑옷입니다. | 3500 G");
-            storeItem.Add("낡은 검 | 공격력 +2 | 쉽게 볼 수 있는 낡은 검입니다. | 600 G");
-            storeItem.Add("청동 도끼 | 공격력 +5 | 어디선가 사용됐던 것 같은 도끼입니다. | 1500 G");
-            storeItem.Add("스파르타의 창 | 공격력 +7 | 스파르타의 전사들이 사용했다는 전설의 창입니다. | 2400 G");
+            storeItem.Add($"수련자 갑옷 | 방어력 +{storeItemDefStat[0]} | 수련에 도움을 주는 갑옷입니다. | {1000} G");
+            storeItem.Add($"무쇠갑옷 | 방어력 +{storeItemDefStat[1]} | 무쇠로 만들어져 튼튼한 갑옷입니다. | {2250} G");
+            storeItem.Add($"스파르타의 갑옷 | 방어력 +{storeItemDefStat[2]} | 스파르타의 전사들이 사용했다는 전설의 갑옷입니다. | {3500} G");
+            storeItem.Add($"낡은 검 | 공격력 +{storeItemAtkStat[3]} | 쉽게 볼 수 있는 낡은 검입니다. | {600} G");
+            storeItem.Add($"청동 도끼 | 공격력 +{storeItemAtkStat[4]} | 어디선가 사용됐던 것 같은 도끼입니다. | {1500} G");
+            storeItem.Add($"스파르타의 창 | 공격력 +{storeItemAtkStat[5]} | 스파르타의 전사들이 사용했다는 전설의 창입니다. | {2400} G");
+            storeItem.Add($"원형 방패 | 방어력 +{storeItemDefStat[6]}, 공격력 +{storeItemAtkStat[6]} | 방패만으로 싸우던 사내가 있었습니다. | {1800} G");
+            storeItem.Add($"스파르타의 투구 | 방어력 +{storeItemDefStat[7]} | 갑옷은 없어도 투구는 써야 합니다. | {400} G");
+            storeItem.Add($"나무 활과 화살 | 방어력 -{storeItemDefStat[8]}, 공격력 +{storeItemAtkStat[8]} | 때로는 공격이 최선의 방어입니다. | {1650} G");
 
             string userChoice;
 
@@ -96,25 +136,59 @@ namespace 텍스트_RPG__스파르타_던전_
                 Console.WriteLine("Lv. " + userStat.Lv);
                 Console.WriteLine(userStat.UserName + " ( " + userStat.UserClass + " )");
 
-                if (atkChange == 0 && defChange == 0)
+                if (atkChange == 0)
                 {
-                    Console.WriteLine("공격력 : " + userStat.Atk);
-                    Console.WriteLine("방어력 : " + userStat.Def);
+                    if (defChange == 0)
+                    {
+                        Console.WriteLine("공격력 : " + userStat.Atk);
+                        Console.WriteLine("방어력 : " + userStat.Def);
+                    }
+                    else if (defChange > 0)
+                    {
+                        Console.WriteLine("공격력 : " + userStat.Atk);
+                        Console.WriteLine("방어력 : " + userStat.Def + $" (+{defChange})");
+                    }
+                    else
+                    {
+                        Console.WriteLine("공격력 : " + userStat.Atk);
+                        Console.WriteLine("방어력 : " + userStat.Def + $" ({defChange})");
+                    }
                 }
-                else if (atkChange != 0 && defChange == 0)
+                else if (atkChange > 0)
                 {
-                    Console.WriteLine("공격력 : " + userStat.Atk + $" (+{atkChange})");
-                    Console.WriteLine("방어력 : " + userStat.Def);
-                }
-                else if (atkChange == 0 && defChange != 0)
-                {
-                    Console.WriteLine("공격력 : " + userStat.Atk);
-                    Console.WriteLine("방어력 : " + userStat.Def + $" (+{defChange})");
+                    if (defChange == 0)
+                    {
+                        Console.WriteLine("공격력 : " + userStat.Atk + $" (+{atkChange})");
+                        Console.WriteLine("방어력 : " + userStat.Def);
+                    }
+                    else if (defChange > 0)
+                    {
+                        Console.WriteLine("공격력 : " + userStat.Atk + $" (+{atkChange})");
+                        Console.WriteLine("방어력 : " + userStat.Def + $" (+{defChange})");
+                    }
+                    else
+                    {
+                        Console.WriteLine("공격력 : " + userStat.Atk + $" (+{atkChange})");
+                        Console.WriteLine("방어력 : " + userStat.Def + $" ({defChange})");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("공격력 : " + userStat.Atk + $" (+{atkChange})");
-                    Console.WriteLine("방어력 : " + userStat.Def + $" (+{defChange})");
+                    if (defChange == 0)
+                    {
+                        Console.WriteLine("공격력 : " + userStat.Atk + $" ({atkChange})");
+                        Console.WriteLine("방어력 : " + userStat.Def);
+                    }
+                    else if (defChange > 0)
+                    {
+                        Console.WriteLine("공격력 : " + userStat.Atk + $" ({atkChange})");
+                        Console.WriteLine("방어력 : " + userStat.Def + $" (+{defChange})");
+                    }
+                    else
+                    {
+                        Console.WriteLine("공격력 : " + userStat.Atk + $" ({atkChange})");
+                        Console.WriteLine("방어력 : " + userStat.Def + $" ({defChange})");
+                    }
                 }
 
                 Console.WriteLine("체력 : " + userStat.Health);
@@ -136,12 +210,14 @@ namespace 텍스트_RPG__스파르타_던전_
                 string userChoice = null;
                 Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
                 Console.WriteLine("이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.");
-                userChoice = UserAct("1. 상태 보기", "2. 인벤토리", "3. 상점");
+                userChoice = UserAct("1. 상태 보기", "2. 인벤토리", "3. 상점", "4. 던전입장", "5. 휴식하기");
 
+                //스탯 확인
                 if (userChoice == "1")
                 {
                     ShowStat();
                 }
+                //인벤토리
                 else if (userChoice == "2")
                 {
                 ReItem:
@@ -181,39 +257,62 @@ namespace 텍스트_RPG__스파르타_던전_
                         
                         if (int.Parse(userChoice) <= userItem.Count)
                         {
-                            if ((userItem[(int.Parse(userChoice)) - 1]).Contains("[E]") == true)
+                            if ((userItem[int.Parse(userChoice) - 1]).Contains("[E]") == true)
                             {
-                                userItem[(int.Parse(userChoice)) - 1] = userItem[(int.Parse(userChoice)) - 1].Remove(0, 3);
+                                userItem[int.Parse(userChoice) - 1] = userItem[int.Parse(userChoice) - 1].Remove(0, 3);
 
-                                if ((userItem[(int.Parse(userChoice)) - 1].Contains("방어력")) == true)
-                                {
-                                    int defDown = int.Parse((userItem[(int.Parse(userChoice)) - 1].ElementAt(((userItem[(int.Parse(userChoice)) - 1].IndexOf("+")) + 1))).ToString());
-                                    userStat.Def -= defDown;
-                                    defChange -= defDown;
+                                if ((userItem[int.Parse(userChoice) - 1].Contains("방어력 +")) == true)
+                                {                                    
+                                    userStat.Def -= userItemDefStat[int.Parse(userChoice) - 1];
+                                    defChange -= userItemDefStat[int.Parse(userChoice) - 1];
                                 }
-                                else if ((userItem[(int.Parse(userChoice)) - 1].Contains("공격력")) == true)
+                                
+                                if ((userItem[int.Parse(userChoice) - 1].Contains("공격력 +")) == true)
                                 {
-                                    int atkDown = int.Parse((userItem[(int.Parse(userChoice)) - 1].ElementAt(((userItem[(int.Parse(userChoice)) - 1].IndexOf("+")) + 1))).ToString());
-                                    userStat.Atk -= atkDown;
-                                    atkChange -= atkDown;
+                                    userStat.Atk -= userItemAtkStat[int.Parse(userChoice) - 1];
+                                    atkChange -= userItemAtkStat[int.Parse(userChoice) - 1];
+                                }
+
+
+                                if ((userItem[int.Parse(userChoice) - 1].Contains("방어력 -")) == true)
+                                {
+                                    userStat.Def += userItemDefStat[int.Parse(userChoice) - 1];
+                                    defChange += userItemDefStat[int.Parse(userChoice) - 1];
+                                }
+                                
+                                if ((userItem[int.Parse(userChoice) - 1].Contains("공격력 -")) == true)
+                                {
+                                    userStat.Atk += userItemAtkStat[int.Parse(userChoice) - 1];
+                                    atkChange += userItemAtkStat[int.Parse(userChoice) - 1];
                                 }
 
                             }
                             else
                             {
-                                userItem[(int.Parse(userChoice)) - 1] = userItem[(int.Parse(userChoice)) - 1].Insert(0, "[E]");
+                                userItem[int.Parse(userChoice) - 1] = userItem[int.Parse(userChoice) - 1].Insert(0, "[E]");
 
-                                if ((userItem[(int.Parse(userChoice)) - 1].Contains("방어력")) == true)
+                                if ((userItem[int.Parse(userChoice) - 1].Contains("방어력 +")) == true)
                                 {
-                                    int defUp = int.Parse((userItem[(int.Parse(userChoice)) - 1].ElementAt(((userItem[(int.Parse(userChoice)) - 1].IndexOf("+")) + 1))).ToString());
-                                    userStat.Def += defUp;
-                                    defChange += defUp;
+                                    userStat.Def += userItemDefStat[int.Parse(userChoice) - 1];
+                                    defChange += userItemDefStat[int.Parse(userChoice) - 1];
                                 }
-                                else if ((userItem[(int.Parse(userChoice)) - 1].Contains("공격력")) == true)
+                                
+                                if ((userItem[int.Parse(userChoice) - 1].Contains("공격력 +")) == true)
                                 {
-                                    int atkUp = int.Parse((userItem[(int.Parse(userChoice)) - 1].ElementAt(((userItem[(int.Parse(userChoice)) - 1].IndexOf("+")) + 1))).ToString());
-                                    userStat.Atk += atkUp;
-                                    atkChange += atkUp;
+                                    userStat.Atk += userItemAtkStat[int.Parse(userChoice) - 1];
+                                    atkChange += userItemAtkStat[int.Parse(userChoice) - 1];
+                                }
+
+                                if ((userItem[int.Parse(userChoice) - 1].Contains("방어력 -")) == true)
+                                {
+                                    userStat.Def -= userItemDefStat[int.Parse(userChoice) - 1];
+                                    defChange -= userItemDefStat[int.Parse(userChoice) - 1];
+                                }
+                                
+                                if ((userItem[int.Parse(userChoice) - 1].Contains("공격력 -")) == true)
+                                {
+                                    userStat.Atk -= userItemAtkStat[int.Parse(userChoice) - 1];
+                                    atkChange -= userItemAtkStat[int.Parse(userChoice) - 1];
                                 }
                             }
 
@@ -237,12 +336,13 @@ namespace 텍스트_RPG__스파르타_던전_
                         goto ReItem;
                     }
                 }
+                //상점
                 else if (userChoice == "3")
                 {
                     ReMarket:
                     Console.Clear();
                     Console.WriteLine("상점");
-                    Console.WriteLine("필여한 아이템을 얻을 수 있는 상점입니다.");
+                    Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
                     Console.WriteLine();
                     Console.WriteLine("[보유 골드]");
                     Console.WriteLine(userStat.Gold);
@@ -275,9 +375,17 @@ namespace 텍스트_RPG__스파르타_던전_
                         Console.WriteLine();
                         userChoice = UserAct("0. 나가기");
 
+                        int num;
+
+                        if (!int.TryParse(userChoice, out num))
+                        {
+                            Console.Clear();
+                            goto ReBuy;
+                        }
+
                         if (int.Parse(userChoice) <= storeItem.Count && int.Parse(userChoice) > 0)
                         {
-                            if ((storeItem[(int.Parse(userChoice)) - 1]).Contains("구매완료") == true)
+                            if ((storeItem[int.Parse(userChoice) - 1]).Contains("구매완료") == true)
                             {
                                 Console.WriteLine("이미 구매한 아이템입니다.");
                                 Console.ReadLine();
@@ -286,11 +394,13 @@ namespace 텍스트_RPG__스파르타_던전_
                             }
                             else
                             {
-                                if (((storeItem[(int.Parse(userChoice)) - 1]).Contains("구매완료") == false) && (int.Parse((storeItem[(int.Parse(userChoice)) - 1].Substring(storeItem[(int.Parse(userChoice)) - 1].LastIndexOf("|") + 2)).Replace(" G", "")) <= userStat.Gold))
+                                if (((storeItem[int.Parse(userChoice) - 1]).Contains("구매완료") == false) && (int.Parse((storeItem[int.Parse(userChoice) - 1].Substring(storeItem[int.Parse(userChoice) - 1].LastIndexOf("|") + 2)).Replace(" G", "")) <= userStat.Gold))
                                 {
-                                    userStat.Gold -= int.Parse((storeItem[(int.Parse(userChoice)) - 1].Substring(storeItem[(int.Parse(userChoice)) - 1].LastIndexOf("|") + 2)).Replace(" G", ""));
-                                    userItem.Add(storeItem[(int.Parse(userChoice)) - 1].Replace((storeItem[(int.Parse(userChoice)) - 1].Substring(storeItem[(int.Parse(userChoice)) - 1].LastIndexOf("|"))), ""));
-                                    storeItem[(int.Parse(userChoice)) - 1] = storeItem[(int.Parse(userChoice)) - 1].Replace((storeItem[(int.Parse(userChoice)) - 1].Substring(storeItem[(int.Parse(userChoice)) - 1].LastIndexOf("|"))), "[구매완료]");
+                                    userStat.Gold -= itemCost[int.Parse(userChoice) - 1];
+                                    userItem.Add(storeItem[int.Parse(userChoice) - 1].Replace((storeItem[int.Parse(userChoice) - 1].Substring(storeItem[int.Parse(userChoice) - 1].LastIndexOf("|"))), ""));
+                                    userItemDefStat.Add(storeItemDefStat[int.Parse(userChoice) - 1]);
+                                    userItemAtkStat.Add(storeItemAtkStat[int.Parse(userChoice) - 1]);
+                                    storeItem[int.Parse(userChoice) - 1] = storeItem[int.Parse(userChoice) - 1].Replace($"{itemCost[int.Parse(userChoice) - 1]} G", "[구매완료]");
                                     Console.WriteLine("구매를 완료했습니다.");
                                     Console.ReadLine();
                                     Console.Clear();
@@ -321,8 +431,24 @@ namespace 텍스트_RPG__스파르타_던전_
                     }
                     else if (userChoice == "0")
                     {
+                        Console.Clear();
                         Town();
                     }
+                    else
+                    {
+                        Console.Clear();
+                        goto ReMarket;
+                    }
+                }
+                //던전입장
+                else if (userChoice == "4")
+                {
+
+                }
+                //휴식하기
+                else if (userChoice == "5")
+                {
+
                 }
                 else
                 {
@@ -340,7 +466,7 @@ namespace 텍스트_RPG__스파르타_던전_
                 Console.WriteLine("원하시는 이름을 설정해주세요");
                 Console.WriteLine();
                 nameChosen = Console.ReadLine();
-            ReName:
+                ReName:
                 Console.WriteLine();
                 Console.WriteLine($"입력하신 이름은 {nameChosen} 입니다.");
                 userChoice = UserAct("1. 저장", "2. 취소");
@@ -362,6 +488,12 @@ namespace 텍스트_RPG__스파르타_던전_
                     Console.WriteLine();
                     Console.WriteLine($"입력하신 이름은 {nameChosen} 입니다.");
                     userChoice = UserAct("1. 저장", "2. 취소");
+
+                    if (userChoice == "1")
+                    {
+                        userStat.UserName = nameChosen;
+                        nameFixed = true;
+                    }
                 }
 
 
