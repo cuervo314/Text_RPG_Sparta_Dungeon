@@ -4,7 +4,7 @@ namespace 텍스트_RPG__스파르타_던전_
 {
     internal class Program
     {
-
+        string asdasdasdasdasd;
         //유저 스탯 클래스
         public class UserStat
         {
