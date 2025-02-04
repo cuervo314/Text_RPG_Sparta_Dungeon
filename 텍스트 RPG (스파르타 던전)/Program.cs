@@ -11,7 +11,7 @@ namespace 텍스트_RPG__스파르타_던전_
             public int Lv { get; set; }
             public string UserName { get; set; }
             public string UserClass { get; set; }
-            public int Atk { get; set; }
+            public float Atk { get; set; }
             public int Def { get; set; }
             public int Health { get; set; }
             public float Gold { get; set; }
@@ -111,7 +111,7 @@ namespace 텍스트_RPG__스파르타_던전_
             UserStat userStat = new UserStat();
             userStat.UserName = null;
             userStat.Lv = 01;
-            userStat.Atk = 10;
+            userStat.Atk = 10f;
             userStat.Def = 5;
             userStat.Health = 100;
             userStat.Gold = 1500;
@@ -249,27 +249,29 @@ namespace 텍스트_RPG__스파르타_던전_
                 }
             }
 
-            //스탯 변화(+)
-            void StatChange1()
-            {
-
-            }
-
-            //스탯 변화(-)
-            void StatChange2()
-            {
-
-            }
-
             //던전
             void DungeonClear(string dungeon, int defNeeded, int reward)
             {
-                if (userStat.Def < defNeeded)
+                Random random = new Random();
+                int healthDecrease = random.Next(20, 36) - userStat.Def + defNeeded;
+                if (userStat.Health-healthDecrease <= 0)
                 {
-                    Random random = new Random();
-                    int success = random.Next(0, 100);
-                    int healthDecrease = random.Next(20, 36) - userStat.Def + defNeeded;
-                    int bonus = reward * random.Next(userStat.Atk, userStat.Atk * 2 + 1) / 100;
+                    Console.Clear();
+                    Console.WriteLine("던전 공략 실패...");
+                    Console.WriteLine($"{dungeon} 공략에 실패했습니다.");
+                    Console.WriteLine();
+                    Console.WriteLine("[탐험 결과]");
+                    Console.WriteLine($"체력 {userStat.Health} -> 0");
+                    Console.WriteLine();
+                    Console.WriteLine("당신은 사망하였습니다");
+                    Console.WriteLine($"{userStat.UserName}의 이름은 기억될 것입니다.");
+                    Console.Read();
+                    Environment.Exit(0);
+                }
+                else if (userStat.Def < defNeeded)
+                {                    
+                    int success = random.Next(0, 100);                    
+                    int bonus = reward * random.Next((int)userStat.Atk, (int)userStat.Atk * 2 + 1) / 100;
                     int goldChange = reward + bonus;
 
                     if (success >= 40)
@@ -284,6 +286,11 @@ namespace 텍스트_RPG__스파르타_던전_
                         userStat.Health -= healthDecrease;
                         Console.WriteLine($"Gold {userStat.Gold} G -> {userStat.Gold + goldChange} G");
                         userStat.Gold += goldChange;
+                        Console.WriteLine($"레벨 Lv{userStat.Lv} -> Lv{userStat.Lv + 1}");
+                        userStat.Lv++;
+                        Console.WriteLine($"공격력 {userStat.Atk} + 0.5, 방어력 {userStat.Def} + 1");
+                        userStat.Atk += 0.5f;
+                        userStat.Def++;
                     }
                     else
                     {
@@ -298,10 +305,8 @@ namespace 텍스트_RPG__스파르타_던전_
                 }
                 else if (userStat.Def == defNeeded)
                 {
-                    Random random = new Random();
                     int success = random.Next(0, 100);
-                    int healthDecrease = random.Next(20, 36) - userStat.Def + defNeeded;
-                    int bonus = reward * random.Next(userStat.Atk, userStat.Atk * 2 + 1) / 100;
+                    int bonus = reward * random.Next((int)userStat.Atk, (int)userStat.Atk * 2 + 1) / 100;
                     int goldChange = reward + bonus;
 
                     if (success >= 20)
@@ -316,6 +321,11 @@ namespace 텍스트_RPG__스파르타_던전_
                         userStat.Health -= healthDecrease;
                         Console.WriteLine($"Gold {userStat.Gold} G -> {userStat.Gold + goldChange} G");
                         userStat.Gold += goldChange;
+                        Console.WriteLine($"레벨 Lv{userStat.Lv} -> Lv{userStat.Lv + 1}");
+                        userStat.Lv++;
+                        Console.WriteLine($"공격력 {userStat.Atk} + 0.5, 방어력 {userStat.Def} + 1");
+                        userStat.Atk += 0.5f;
+                        userStat.Def++;
                     }
                     else
                     {
@@ -330,9 +340,7 @@ namespace 텍스트_RPG__스파르타_던전_
                 }
                 else
                 {
-                    Random random = new Random();
-                    int healthDecrease = random.Next(20, 36) - userStat.Def + defNeeded;
-                    int bonus = reward * random.Next(userStat.Atk, userStat.Atk * 2 + 1) / 100;
+                    int bonus = reward * random.Next((int)userStat.Atk, (int)userStat.Atk * 2 + 1) / 100;
                     int goldChange = reward + bonus;
                     Console.Clear();
                     Console.WriteLine("던전 클리어");
@@ -344,6 +352,11 @@ namespace 텍스트_RPG__스파르타_던전_
                     userStat.Health -= healthDecrease;
                     Console.WriteLine($"Gold {userStat.Gold} G -> {userStat.Gold + goldChange} G");
                     userStat.Gold += goldChange;
+                    Console.WriteLine($"레벨 Lv{userStat.Lv} -> Lv{userStat.Lv + 1}");
+                    userStat.Lv++;
+                    Console.WriteLine($"공격력 {userStat.Atk} + 0.5, 방어력 {userStat.Def} + 1");
+                    userStat.Atk += 0.5f;
+                    userStat.Def++;
                 }
             }
 
