@@ -3,6 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace 텍스트_RPG__스파르타_던전_
 {
+    //클래스와 함수를 최대한 사용해보고 싶었지만 그렇지 못 했습니다. 강의 후반부의 고급 문법들도 아직 숙달하지 못 했습니다.
+    //그래서 코드가 비효율적이고 가독성이 떨어지는 것 같습니다. 그렇기에 예외 처리 같은 다른 영역에 신경을 좀 썼습니다.
+    //감사합니다.
     internal class Program
     {
         //유저 스탯 클래스
@@ -17,6 +20,7 @@ namespace 텍스트_RPG__스파르타_던전_
             public float Gold { get; set; }
         }
 
+        // 던전 권장 방어도
         public class DefNeeded
         {
             public int Easy;
@@ -360,6 +364,7 @@ namespace 텍스트_RPG__스파르타_던전_
                 }
             }
 
+            // 마을 행동
             void Town()
             {
                 Console.Clear();
@@ -389,7 +394,7 @@ namespace 텍스트_RPG__스파르타_던전_
                     }
 
                     userChoice = UserAct("1. 장착 관리", "0. 나가기");
-
+                    //장착 관리
                     if (userChoice == "1")
                     {
                         ReManage:
@@ -582,7 +587,7 @@ namespace 텍스트_RPG__스파르타_던전_
                     }
 
                     userChoice = UserAct("1. 아이템 구매", "2. 아이템 판매", "0. 나가기");
-
+                    // 아이템 구매
                     if (userChoice == "1")
                     {
                         ReBuy:
@@ -651,7 +656,7 @@ namespace 텍스트_RPG__스파르타_던전_
                         }
 
                     }
-                    //판매
+                    //아이템 판매
                     else if (userChoice == "2")
                     {
                         ReSell:
@@ -670,7 +675,7 @@ namespace 텍스트_RPG__스파르타_던전_
                         }
 
                         userChoice = UserAct("0. 나가기");
-                        //수정 중
+
                         int num;
 
                         if (!int.TryParse(userChoice, out num))
@@ -758,7 +763,6 @@ namespace 텍스트_RPG__스파르타_던전_
                             Console.ReadLine();
                             goto ReSell;
                         }
-                        //수정 중
                     }
                     else if (userChoice == "0")
                     {
@@ -855,7 +859,7 @@ namespace 텍스트_RPG__스파르타_던전_
                 }
             }
 
-
+            // 이름 생성
             while (nameFixed == false)
             {
                 Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
